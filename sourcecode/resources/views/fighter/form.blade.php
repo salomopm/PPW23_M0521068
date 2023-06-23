@@ -31,7 +31,7 @@
             </ul>
         </div>
     </nav>
-    <form action="{{ route('simpan-fighter') }}" method="post">
+    <form enctype="multipart/form-data" action="{{ route('simpan-fighter') }}" method="post">
         {{ csrf_field() }}
         <div class="mb-3 w-75">
             <label for="Name" class="form-label">Name</label>
@@ -58,6 +58,10 @@
                 <option value="Kick Boxing">Kick Boxing</option>
                 <option value="Kyokushin Karate">Kyokushin Karate</option>
             </select>
+        </div>
+        <div class="mb-3 w-75">
+            <label for="input" class="form-label">Fighter Photo</label>
+            <input type="file" name="fighter_photo" id="fighter_photo" class="form-control" placeholder="Foto">
         </div>
         <div class="tombol-submit">
             <button type="submit" class="btn btn-primary" id="tombol-submit">Submit</button>

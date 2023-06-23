@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="edit-style.css">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style type='text/css'>
+    .navbar-brand{
+    padding-left: 1%;
+    }
+    
+    .edit{
+        padding-top: 2%;
+        padding-left: 30%;
+    }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-light">
@@ -17,53 +27,44 @@
             <path d="m 353.0467,43.453409 h -69.58398 l -0.0352,0.11963 H 217.8758 L 230.48761,-2.0066665e-4 c 45.03857,0 90.07764,0 135.11279,0 L 353.0467,43.453409 l 0,0 z" id="path17" inkscape:connector-curvature="0"/>
             </svg></a>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item1">
-                <a class="nav-link" aria-current="page" href="{{route('home')}}">Home</a>
-                </li>
-                <li class="nav-item2">
-                <a class="nav-link" href="{{route('form')}}">Input Fighter</a>
-                </li>
-                <li class="nav-item3">
-                <a class="nav-link" href="{{route('table-fighter')}}">Fighter List</a>
-                </li>
-            </ul>
-            </div>
         </div>
     </nav>
-
-    <div class="container-fluid">
-        <table class="table table-bordered">
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Basic</th>
-                <th>Weight Class</th>
-                <th>Fighter Photo</th>
-                <th>Action</th>
-            </tr>
-            @foreach ($dtFighter as $item)
-            <tr>
-                <td>{{$loop->iteration}}</td>
-                <td>{{$item->name}}</td>
-                <td>{{$item->age}}</td>
-                <td>{{$item->basic}}</td>
-                <td>{{$item->weightClass}}</td>
-                <td>
-                    <img src="{{ asset($item->fighter_photo) }}" width="60" height="60" class="img img-responsive">
-                </td>
-                <td>
-                <a href="{{ route('edit-fighter', $item->id) }}"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg></i></i></a>
-                |
-                <a href="{{ route('delete-fighter', $item->id) }}"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></a>
-                </td>
-            </tr>
-            @endforeach
-        </table>
-    </div>
-    
+    <form enctype="multipart/form-data" action="{{ route('update-fighter',$peg->id) }}" method="post">
+        {{ csrf_field() }}
+        <div class="mb-3 w-75 edit" >
+            <label for="Name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+        </div>
+        <div class="mb-3 w-75 edit">
+            <label for="exampleFormControlInput1" class="form-label">Age</label>
+            <input type="text" class="form-control" name="age" id="age" placeholder="Age">
+        </div>
+        <div class="mb-3 w-75 edit">
+            <label for="exampleFormControlInput1" class="form-label">Weight Class</label>
+            <input type="text" class="form-control" name="weightClass" id="weightClass" placeholder="Weight Class">
+        </div>
+        <div class="select-dropdown edit">
+        <label for="input" class="form-label">Martial Art Basic</label>
+            <select class="form-select w-50" name="basic" id="basic" aria-label="Default select example">
+                <option selected>None</option>
+                <option value="Brazilian Jiu Jutsu">Brazilian Jiu Jutsu</option>
+                <option value="Wrestling">Wrestling</option>
+                <option value="Judo">Judo</option>
+                <option value="Kick Boxing">Kick Boxing</option>
+                <option value="Boxing">Boxing</option>
+                <option value="Muay Thai">Muay Thai</option>
+                <option value="Kick Boxing">Kick Boxing</option>
+                <option value="Kyokushin Karate">Kyokushin Karate</option>
+            </select>
+        </div>
+        <div class="mb-3 w-75 edit">
+            <label for="input" class="form-label">Fighter Photo</label>
+            <input type="file" name="fighter_photo" id="fighter_photo" class="form-control" placeholder="Foto">
+        </div>
+        <div class="tombol-submit edit">
+            <button type="submit" class="btn btn-primary" id="tombol-submit">Submit</button>
+        </div>
+    </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('age');
             $table->string('basic',100);
             $table->string('weightClass',100);
+            $table->string('fighter_photo',500);
             $table->timestamps();
         });
     }
