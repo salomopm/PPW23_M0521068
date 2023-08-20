@@ -23,4 +23,7 @@ Route::get('/', function () {
 Route::get('/table-fighter', [FighterController::class, 'index'])->name('table-fighter');
 Route::get('/form', [FighterController::class, 'create'])->name('form');
 Route::post('/simpan-fighter',[FighterController::class, 'store'])->name('simpan-fighter');
+Route::get('/edit-fighter/{id}',[FighterController::class, 'edit'])->name('edit-fighter');
+Route::post('/update-fighter/{id}',[FighterController::class, 'update'])->name('update-fighter');
+Route::get('/delete-fighter/{id}',[FighterController::class, 'destroy'])->name('delete-fighter');
 

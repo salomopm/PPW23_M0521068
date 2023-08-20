@@ -34,11 +34,33 @@ class FighterController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'age' => ['required', 'int'],
+            'basic' => ['required', 'string'],
+            'weightClass' => ['required', 'string'],
+            'fighter_photo' => ['nullable'],
+        ]);
+
+        if(!$validated){
+            return redirect()->back()->with('error', 'Validation failed!');
+        }
+
+        if($request->file('fighter_photo')){
+            $fileName = time().'_'.$request->file('fighter_photo')->getClientOriginalName();
+            $request->file('fighter_photo')->move(public_path('fighter_photo'), $fileName);
+            $filePath = 'fighter_photo/'.$fileName;
+
+            $validated['fighter_photo'] = $filePath;
+        }
+
         Fighter::create([
-            'name' => $request->name,
-            'age' => $request->age,
-            'basic' => $request->basic,
-            'weightClass' => $request->weightClass
+            'name' => $validated['name'],
+            'age' => $validated['age'],
+            'basic' => $validated['basic'],
+            'weightClass' => $validated['weightClass'],
+            'fighter_photo' => $validated['fighter_photo'],
         ]);
 
         return redirect('table-fighter');
@@ -57,7 +79,8 @@ class FighterController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $peg = Fighter::findOrFail($id);
+        return view('fighter.edit-form',compact('peg'));
     }
 
     /**
@@ -65,7 +88,28 @@ class FighterController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $peg = Fighter::findOrFail($id);
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'age' => ['required', 'int'],
+            'basic' => ['required', 'string'],
+            'weightClass' => ['required', 'string'],
+            'fighter_photo' => ['nullable'],
+        ]);
+
+        if(!$validated){
+            return redirect()->back()->with('error', 'Validation failed!');
+        }
+
+        if($request->file('fighter_photo')){
+            $fileName = time().'_'.$request->file('fighter_photo')->getClientOriginalName();
+            $request->file('fighter_photo')->move(public_path('fighter_photo'), $fileName);
+            $filePath = 'fighter_photo/'.$fileName;
+
+            $validated['fighter_photo'] = $filePath;
+        }
+        $peg->update($validated);
+        return redirect('table-fighter');
     }
 
     /**
@@ -73,6 +117,8 @@ class FighterController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $peg = Fighter::findOrFail($id);
+        $peg->delete();
+        return back();
     }
 }

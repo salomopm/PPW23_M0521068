@@ -16,7 +16,7 @@ class Fighter extends Model
         'age',
         'basic',
         'weightClass',
-        
+        'fighter_photo',
     ];
 
     protected $hidden = [
